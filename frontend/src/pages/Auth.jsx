@@ -1,15 +1,20 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import './Auth.css';
 
-const Auth = () => {
-    const [mode, setMode] = useState('login'); // 'login' or 'register'
+const Auth = ({ mode: initialMode = 'login' }) => {
+    const [mode, setMode] = useState(initialMode); // 'login' or 'register'
     const [role, setRole] = useState('donor'); // 'donor' or 'ngo'
     const [showPassword, setShowPassword] = useState(false);
     const [isAnimating, setIsAnimating] = useState(false);
     const { login, register, loading, error: authError } = useAuth();
     const navigate = useNavigate();
+
+    // Sync mode state if initialMode prop changes (e.g. navigating between /login and /register)
+    useEffect(() => {
+        setMode(initialMode);
+    }, [initialMode]);
 
     const [form, setForm] = useState({
         name: '', email: '', password: '', confirmPassword: '',

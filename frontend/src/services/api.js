@@ -23,7 +23,10 @@ api.interceptors.response.use(
             localStorage.removeItem('careconnect_user');
             window.location.href = '/login';
         }
-        const message = error.response?.data?.message || error.message || 'Something went wrong. Please try again.';
+        let message = error.response?.data?.message || error.message || 'Something went wrong. Please try again.';
+        if (error.message === 'Network Error') {
+            message = 'Unable to connect to the server. Please ensure the backend is running and reachable.';
+        }
         return Promise.reject(new Error(message));
     }
 );
