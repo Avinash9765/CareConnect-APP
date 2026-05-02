@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
+import './RequestFoodPage.css';
 
 const donationsData = [
     { id: 1, name: 'Chicken Biryani', type: 'cooked_meal', quantity: '5 portions', distance: 1.4, location: 'Koramangala, Bangalore', postedBy: 'Rahul K.', safeUntil: Date.now() + 3 * 60 * 60 * 1000 + 22 * 60 * 1000 },
@@ -27,6 +28,8 @@ const RequestFoodPage = () => {
     const [requestSubmitted, setRequestSubmitted] = useState(false);
     const [, setTick] = useState(0);
 
+    const typeColors = { cooked_meal: '#1D9E75', packaged_food: '#2563eb', raw_ingredients: '#d97706', beverages: '#7c3aed', bakery: '#db2777' };
+
     useEffect(() => {
         const timer = setInterval(() => setTick(t => t + 1), 60000);
         return () => clearInterval(timer);
@@ -43,62 +46,66 @@ const RequestFoodPage = () => {
     const handleClaim = (id) => setClaimedIds([...claimedIds, id]);
 
     return (
-        <div style={styles.container}>
-            <div style={styles.header}>
-                <p style={styles.breadcrumb}>Home → Find Food</p>
-                <h1 style={styles.title}>Find Available Food 🔍</h1>
-                <p style={styles.subtitle}>Browse real-time food donations near you</p>
+        <div className="request-container">
+            <div className="request-header">
+                <p className="request-breadcrumb">Home → Find Food</p>
+                <h1 className="request-title">Find Available Food 🔍</h1>
+                <p style={{ fontSize: '15px', color: '#6b7280', marginTop: '4px' }}>Browse real-time food donations near you</p>
             </div>
 
-            <div style={styles.tabs}>
-                <button onClick={() => setActiveTab('browse')} style={{ ...styles.tab, ...(activeTab === 'browse' ? styles.activeTab : {}) }}>🔍 Donations Near Me</button>
-                <button onClick={() => setActiveTab('request')} style={{ ...styles.tab, ...(activeTab === 'request' ? styles.activeTab : {}) }}>📋 Submit a Request</button>
+            <div className="request-tabs">
+                <button onClick={() => setActiveTab('browse')} className={`request-tab ${activeTab === 'browse' ? 'active' : ''}`}>🔍 Donations Near Me</button>
+                <button onClick={() => setActiveTab('request')} className={`request-tab ${activeTab === 'request' ? 'active' : ''}`}>📋 Submit a Request</button>
             </div>
 
             {activeTab === 'browse' ? (
-                <div style={styles.browseSection}>
-                    <div style={styles.filterBar}>
-                        <div style={styles.filterGroup}>
-                            <label style={styles.filterLabel}>Type:</label>
-                            <select value={filters.foodType} onChange={e => setFilters({ ...filters, foodType: e.target.value })} style={styles.select}>
+                <div className="browse-section">
+                    <div className="filter-bar">
+                        <div className="filter-group">
+                            <label style={{ fontSize: '13px', color: '#6b7280' }}>Type:</label>
+                            <select value={filters.foodType} onChange={e => setFilters({ ...filters, foodType: e.target.value })} style={{ padding: '6px 10px', borderRadius: '6px', border: '1px solid #e5e7eb', fontSize: '13px' }}>
                                 <option value="all">All Types</option>
                                 <option value="cooked_meal">Cooked Meal</option>
                                 <option value="packaged_food">Packaged</option>
                                 <option value="raw_ingredients">Raw Ingredients</option>
                             </select>
                         </div>
-                        <div style={styles.filterGroup}>
-                            <label style={styles.filterLabel}>Within {filters.distance}km:</label>
-                            <input type="range" min="1" max="50" value={filters.distance} onChange={e => setFilters({ ...filters, distance: e.target.value })} style={styles.range} />
+                        <div className="filter-group">
+                            <label style={{ fontSize: '13px', color: '#6b7280' }}>Within {filters.distance}km:</label>
+                            <input type="range" min="1" max="50" value={filters.distance} onChange={e => setFilters({ ...filters, distance: e.target.value })} style={{ accentColor: '#1D9E75' }} />
                         </div>
                         <div style={{ marginLeft: 'auto', fontSize: '13px', color: '#6b7280' }}>
                             {filteredDonations.length} donations found
                         </div>
                     </div>
 
-                    <div style={styles.grid}>
+                    <div className="donations-grid">
                         {filteredDonations.map(d => {
                             const countdown = getCountdown(d.safeUntil);
                             const isClaimed = claimedIds.includes(d.id);
                             return (
-                                <div key={d.id} style={styles.card}>
-                                    <div style={{ ...styles.cardStrip, background: styles.typeColors[d.type] }}></div>
-                                    <div style={styles.cardBody}>
-                                        <span style={{ ...styles.badge, background: styles.typeColors[d.type] + '22', color: styles.typeColors[d.type] }}>
+                                <div key={d.id} className="donation-card">
+                                    <div style={{ height: '8px', background: typeColors[d.type] }}></div>
+                                    <div style={{ padding: '18px' }}>
+                                        <span style={{ fontSize: '11px', fontWeight: 'bold', padding: '3px 10px', borderRadius: '20px', display: 'inline-block', marginBottom: '10px', background: typeColors[d.type] + '22', color: typeColors[d.type] }}>
                                             {d.type.replace('_', ' ').toUpperCase()}
                                         </span>
-                                        <h3 style={styles.foodName}>{d.name}</h3>
-                                        <p style={styles.postedBy}>👤 {d.postedBy} • 📍 {d.distance}km away</p>
-                                        <p style={styles.location}>📍 {d.location}</p>
-                                        <p style={styles.quantity}>🍽️ {d.quantity} available</p>
+                                        <h3 style={{ fontFamily: 'Syne, sans-serif', fontSize: '17px', fontWeight: 700, color: '#0a1f14', marginBottom: '6px' }}>{d.name}</h3>
+                                        <p style={{ fontSize: '13px', color: '#6b7280', marginBottom: '4px' }}>👤 {d.postedBy} • 📍 {d.distance}km away</p>
+                                        <p style={{ fontSize: '12px', color: '#9ca3af', marginBottom: '8px' }}>📍 {d.location}</p>
+                                        <p style={{ fontSize: '13px', color: '#374151', marginBottom: '12px' }}>🍽️ {d.quantity} available</p>
                                         
-                                        <div style={{ ...styles.countdownBadge, background: countdown.bg, color: countdown.color }}>
+                                        <div style={{ padding: '8px 12px', borderRadius: '8px', fontSize: '13px', fontWeight: 'bold', marginBottom: '16px', background: countdown.bg, color: countdown.color }}>
                                             {countdown.text}
                                         </div>
 
                                         <button 
                                             onClick={() => !isClaimed && handleClaim(d.id)} 
-                                            style={{ ...styles.claimBtn, ...(isClaimed ? styles.claimedBtn : {}) }}
+                                            style={{ 
+                                                width: '100%', height: '44px', background: isClaimed ? '#f0fdf4' : '#1D9E75', 
+                                                color: isClaimed ? '#065f46' : '#fff', border: isClaimed ? '1px solid #bbf7d0' : 'none', 
+                                                borderRadius: '10px', fontSize: '14px', fontWeight: 500, cursor: isClaimed ? 'default' : 'pointer', transition: '0.2s' 
+                                            }}
                                         >
                                             {isClaimed ? '✅ Claimed! NGO Notified' : 'Claim This Donation →'}
                                         </button>
@@ -109,85 +116,49 @@ const RequestFoodPage = () => {
                     </div>
                 </div>
             ) : (
-                <div style={styles.requestSection}>
+                <div className="request-section">
                     {!requestSubmitted ? (
-                        <div style={styles.requestCard}>
-                            <h2 style={styles.requestTitle}>📋 Submit a Food Request</h2>
-                            <p style={styles.requestSubtitle}>NGOs and individuals can request specific food needs</p>
+                        <div className="request-form-card">
+                            <h2 style={{ fontFamily: 'Syne, sans-serif', fontSize: '22px', fontWeight: 700, marginBottom: '8px' }}>📋 Submit a Food Request</h2>
+                            <p style={{ fontSize: '14px', color: '#6b7280', marginBottom: '24px' }}>NGOs and individuals can request specific food needs</p>
                             
-                            <div style={styles.fieldGroup}>
-                                <label style={styles.label}>Urgency Level *</label>
-                                <div style={styles.pillGroup}>
+                            <div style={{ marginBottom: '20px' }}>
+                                <label style={{ display: 'block', fontSize: '13px', fontWeight: 500, color: '#374151', marginBottom: '8px' }}>Urgency Level *</label>
+                                <div style={{ display: 'flex', gap: '10px' }}>
                                     {['Low', 'Medium', 'Critical'].map(u => (
                                         <button key={u} onClick={() => setRequestForm({ ...requestForm, urgency: u.toLowerCase() })} 
-                                            style={{ ...styles.pill, ...(requestForm.urgency === u.toLowerCase() ? styles.activePill : {}) }}>
+                                            style={{ 
+                                                flex: 1, padding: '10px', borderRadius: '50px', border: '1.5px solid #e5e7eb', 
+                                                background: requestForm.urgency === u.toLowerCase() ? '#f0fdf4' : '#fff', 
+                                                color: requestForm.urgency === u.toLowerCase() ? '#1D9E75' : 'inherit',
+                                                borderColor: requestForm.urgency === u.toLowerCase() ? '#1D9E75' : '#e5e7eb',
+                                                cursor: 'pointer', fontSize: '13px' 
+                                            }}>
                                             {u === 'Low' ? '🟢' : u === 'Medium' ? '🟡' : '🔴'} {u}
                                         </button>
                                     ))}
                                 </div>
                             </div>
 
-                            <div style={styles.fieldGroup}>
-                                <label style={styles.label}>What do you need? *</label>
-                                <textarea style={styles.textarea} placeholder="Describe items, for how many people..." value={requestForm.what} onChange={e => setRequestForm({ ...requestForm, what: e.target.value })} />
+                            <div style={{ marginBottom: '20px' }}>
+                                <label style={{ display: 'block', fontSize: '13px', fontWeight: 500, color: '#374151', marginBottom: '8px' }}>What do you need? *</label>
+                                <textarea style={{ width: '100%', padding: '12px', border: '1.5px solid #e5e7eb', borderRadius: '10px', fontSize: '14px', minHeight: '100px', outline: 'none' }} placeholder="Describe items, for how many people..." value={requestForm.what} onChange={e => setRequestForm({ ...requestForm, what: e.target.value })} />
                             </div>
 
-                            <button onClick={() => setRequestSubmitted(true)} style={styles.submitBtn}>📨 Submit Food Request</button>
+                            <button onClick={() => setRequestSubmitted(true)} style={{ width: '100%', height: '50px', background: '#1D9E75', color: '#fff', borderRadius: '10px', border: 'none', fontSize: '16px', fontWeight: 500, cursor: 'pointer' }}>📨 Submit Food Request</button>
                         </div>
                     ) : (
-                        <div style={styles.successCard}>
+                        <div style={{ textAlign: 'center', padding: '40px' }}>
                             <div style={{ fontSize: '48px' }}>✅</div>
-                            <h2 style={styles.successTitle}>Request Submitted!</h2>
-                            <p style={styles.successText}>We'll notify nearby donors and NGOs. You'll be contacted within the hour.</p>
-                            <button onClick={() => setRequestSubmitted(false)} style={styles.submitBtn}>Submit Another Request</button>
+                            <h2 style={{ fontFamily: 'Syne, sans-serif', fontSize: '24px', fontWeight: 700, marginTop: '16px' }}>Request Submitted!</h2>
+                            <p style={{ color: '#6b7280', margin: '16px 0 32px' }}>We'll notify nearby donors and NGOs. You'll be contacted within the hour.</p>
+                            <button onClick={() => setRequestSubmitted(false)} style={{ width: '100%', height: '50px', background: '#1D9E75', color: '#fff', borderRadius: '10px', border: 'none', fontSize: '16px', fontWeight: 500, cursor: 'pointer' }}>Submit Another Request</button>
                         </div>
                     )}
                 </div>
             )}
         </div>
     );
-};
-
-const styles = {
-    container: { maxWidth: '1100px', margin: '0 auto', padding: '32px 40px' },
-    header: { marginBottom: '24px' },
-    breadcrumb: { fontSize: '13px', color: '#6b7280', marginBottom: '8px' },
-    title: { fontFamily: 'Syne, sans-serif', fontSize: '30px', fontWeight: 800, color: '#0a1f14' },
-    subtitle: { fontSize: '15px', color: '#6b7280', marginTop: '4px' },
-    tabs: { display: 'flex', borderBottom: '2px solid #e5e7eb', marginBottom: '32px' },
-    tab: { padding: '12px 24px', border: 'none', background: 'none', cursor: 'pointer', fontSize: '15px', color: '#6b7280', transition: '0.2s' },
-    activeTab: { color: '#1D9E75', borderBottom: '2px solid #1D9E75', fontWeight: 500 },
-    filterBar: { background: '#f9fafb', borderRadius: '12px', padding: '16px 20px', display: 'flex', alignItems: 'center', gap: '20px', marginBottom: '24px', flexWrap: 'wrap' },
-    filterGroup: { display: 'flex', alignItems: 'center', gap: '8px' },
-    filterLabel: { fontSize: '13px', color: '#6b7280' },
-    select: { padding: '6px 10px', borderRadius: '6px', border: '1px solid #e5e7eb', fontSize: '13px' },
-    range: { accentColor: '#1D9E75' },
-    grid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '20px' },
-    card: { background: '#fff', borderRadius: '14px', border: '1.5px solid #e5e7eb', overflow: 'hidden', transition: '0.25s' },
-    cardStrip: { height: '8px' },
-    cardBody: { padding: '18px' },
-    typeColors: { cooked_meal: '#1D9E75', packaged_food: '#2563eb', raw_ingredients: '#d97706', beverages: '#7c3aed', bakery: '#db2777' },
-    badge: { fontSize: '11px', fontWeight: 'bold', padding: '3px 10px', borderRadius: '20px', display: 'inline-block', marginBottom: '10px' },
-    foodName: { fontFamily: 'Syne, sans-serif', fontSize: '17px', fontWeight: 700, color: '#0a1f14', marginBottom: '6px' },
-    postedBy: { fontSize: '13px', color: '#6b7280', marginBottom: '4px' },
-    location: { fontSize: '12px', color: '#9ca3af', marginBottom: '8px' },
-    quantity: { fontSize: '13px', color: '#374151', marginBottom: '12px' },
-    countdownBadge: { padding: '8px 12px', borderRadius: '8px', fontSize: '13px', fontWeight: 'bold', marginBottom: '16px' },
-    claimBtn: { width: '100%', height: '44px', background: '#1D9E75', color: '#fff', border: 'none', borderRadius: '10px', fontSize: '14px', fontWeight: 500, cursor: 'pointer', transition: '0.2s' },
-    claimedBtn: { background: '#f0fdf4', color: '#065f46', border: '1px solid #bbf7d0', cursor: 'default' },
-    requestCard: { background: '#fff', borderRadius: '16px', border: '1.5px solid #e5e7eb', padding: '32px', maxWidth: '600px', margin: '0 auto' },
-    requestTitle: { fontFamily: 'Syne, sans-serif', fontSize: '22px', fontWeight: 700, marginBottom: '8px' },
-    requestSubtitle: { fontSize: '14px', color: '#6b7280', marginBottom: '24px' },
-    fieldGroup: { marginBottom: '20px' },
-    label: { display: 'block', fontSize: '13px', fontWeight: 500, color: '#374151', marginBottom: '8px' },
-    pillGroup: { display: 'flex', gap: '10px' },
-    pill: { flex: 1, padding: '10px', borderRadius: '50px', border: '1.5px solid #e5e7eb', background: '#fff', cursor: 'pointer', fontSize: '13px' },
-    activePill: { borderColor: '#1D9E75', background: '#f0fdf4', color: '#1D9E75' },
-    textarea: { width: '100%', padding: '12px', border: '1.5px solid #e5e7eb', borderRadius: '10px', fontSize: '14px', minHeight: '100px', outline: 'none' },
-    submitBtn: { width: '100%', height: '50px', background: '#1D9E75', color: '#fff', borderRadius: '10px', border: 'none', fontSize: '16px', fontWeight: 500, cursor: 'pointer' },
-    successCard: { textAlign: 'center', padding: '40px' },
-    successTitle: { fontFamily: 'Syne, sans-serif', fontSize: '24px', fontWeight: 700, marginTop: '16px' },
-    successText: { color: '#6b7280', margin: '16px 0 32px' }
 };
 
 export default RequestFoodPage;

@@ -1,0 +1,110 @@
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+    background: #f8fafc;
+}
+
+.dashboard-sidebar {
+    width: 220px;
+    background: #0a1f14;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    padding: 24px 0;
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.dashboard-main {
+    flex: 1;
+    padding: 32px 36px;
+    min-width: 0;
+}
+
+.dashboard-stats-row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    margin-bottom: 28px;
+}
+
+.dashboard-charts-row {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 28px;
+}
+
+.dashboard-bottom-row {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 28px;
+}
+
+@media (max-width: 1200px) {
+    .dashboard-stats-row {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 1024px) {
+    .dashboard-container {
+        flex-direction: column;
+    }
+    
+    .dashboard-sidebar {
+        width: 100%;
+        height: auto;
+        position: static;
+        padding: 16px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .dashboard-sidebar .nav {
+        display: flex;
+        margin-top: 0;
+    }
+    
+    .dashboard-sidebar .nav-item {
+        padding: 8px 12px;
+        border-right: none;
+    }
+    
+    .dashboard-sidebar .nav-active {
+        border-bottom: 2px solid #1D9E75;
+        border-right: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboard-main {
+        padding: 20px 16px;
+    }
+    
+    .dashboard-stats-row {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .dashboard-charts-row, .dashboard-bottom-row {
+        flex-direction: column;
+    }
+    
+    .dashboard-sidebar .nav {
+        display: none; /* Hide nav on small mobile for simplicity or use a toggle */
+    }
+    
+    .dashboard-sidebar {
+        justify-content: center;
+    }
+    
+    .dashboard-feed-card {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .dashboard-stats-row {
+        grid-template-columns: 1fr;
+    }
+}

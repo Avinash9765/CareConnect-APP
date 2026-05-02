@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import './OrphanageSupportPage.css';
 
 const children = [
     { id: 'A12', age: 8, grade: 'Grade 3', interests: ['Drawing', 'Football'], dream: 'Wants to be a teacher', need: 'School fees', avatarColor: '#1D9E75' },
@@ -24,20 +25,20 @@ const OrphanageSupportPage = () => {
     };
 
     return (
-        <div style={styles.page}>
+        <div className="orphanage-container">
             {/* Hero Banner */}
-            <section style={styles.hero}>
-                <div style={{ ...styles.floatingEmoji, left: '15%', animationDelay: '0s' }}>👶</div>
-                <div style={{ ...styles.floatingEmoji, right: '20%', animationDelay: '1s' }}>❤️</div>
-                <div style={{ ...styles.floatingEmoji, left: '60%', animationDelay: '0.5s' }}>📚</div>
-                <h1 style={styles.heroTitle}>Be a Ray of Hope</h1>
-                <p style={styles.heroSubtitle}>Every child deserves love, education, and a bright future. You can make that possible.</p>
+            <section className="orphanage-hero">
+                <div style={{ position: 'absolute', fontSize: '3rem', opacity: 0.3, left: '15%', top: '20%' }}>👶</div>
+                <div style={{ position: 'absolute', fontSize: '3rem', opacity: 0.3, right: '20%', top: '30%' }}>❤️</div>
+                <div style={{ position: 'absolute', fontSize: '3rem', opacity: 0.3, left: '60%', bottom: '20%' }}>📚</div>
+                <h1 style={{ fontFamily: 'Syne, sans-serif', fontSize: 'clamp(2rem, 5vw, 3.5rem)', fontWeight: 800, color: '#fff', position: 'relative', zIndex: 1 }}>Be a Ray of Hope</h1>
+                <p style={{ color: 'rgba(255,255,255,0.75)', maxWidth: '500px', margin: '16px auto 0', position: 'relative', zIndex: 1 }}>Every child deserves love, education, and a bright future. You can make that possible.</p>
             </section>
 
             {/* Support Types */}
-            <section style={styles.section}>
-                <h2 style={styles.sectionTitle}>How Would You Like to Help?</h2>
-                <div style={styles.supportGrid}>
+            <section className="orphanage-section">
+                <h2 style={{ fontFamily: 'Syne, sans-serif', fontSize: '32px', textAlign: 'center', marginBottom: '48px' }}>How Would You Like to Help?</h2>
+                <div className="orphanage-support-grid">
                     {[
                         { id: 'sponsor', icon: '📚', title: 'Sponsor Education', desc: 'Cover books, fees, and school supplies', accent: '#d97706' },
                         { id: 'donate', icon: '📦', title: 'Donate Essentials', desc: 'Send clothes, toys, and daily needs', accent: '#1D9E75' },
@@ -45,62 +46,62 @@ const OrphanageSupportPage = () => {
                         { id: 'event', icon: '🎉', title: 'Host an Event', desc: 'Organize birthdays or workshops', accent: '#7c3aed' }
                     ].map(card => (
                         <div key={card.id} onClick={() => setActiveSupport(activeSupport === card.id ? null : card.id)} 
-                            style={{ ...styles.supportCard, borderColor: activeSupport === card.id ? card.accent : '#e5e7eb', boxShadow: activeSupport === card.id ? `0 0 0 3px ${card.accent}22` : 'none' }}>
-                            <span style={styles.supportIcon}>{card.icon}</span>
-                            <h3 style={styles.supportTitle}>{card.title}</h3>
-                            <p style={styles.supportDesc}>{card.desc}</p>
+                            style={{ background: '#fff', borderRadius: '16px', border: '1.5px solid', borderColor: activeSupport === card.id ? card.accent : '#e5e7eb', padding: '32px 28px', cursor: 'pointer', transition: '0.3s', boxShadow: activeSupport === card.id ? `0 0 0 3px ${card.accent}22` : 'none' }}>
+                            <span style={{ fontSize: '3rem', display: 'block', marginBottom: '16px' }}>{card.icon}</span>
+                            <h3 style={{ fontFamily: 'Syne, sans-serif', fontSize: '20px', marginBottom: '8px' }}>{card.title}</h3>
+                            <p style={{ color: '#6b7280', fontSize: '14px' }}>{card.desc}</p>
                         </div>
                     ))}
                 </div>
 
                 {/* Expanded Content */}
-                <div style={{ ...styles.expandedContent, maxHeight: activeSupport ? '800px' : '0' }}>
+                <div style={{ overflow: 'hidden', transition: 'max-height 0.4s ease', maxWidth: '800px', margin: '0 auto', maxHeight: activeSupport ? '800px' : '0' }}>
                     {activeSupport === 'sponsor' && (
-                        <div style={styles.sponsorTiers}>
-                            <div style={styles.tierGrid}>
+                        <div style={{ padding: '24px 0', textAlign: 'center' }}>
+                            <div className="tier-grid" style={{ display: 'flex', gap: '16px', justifyContent: 'center', marginBottom: '24px' }}>
                                 {[{ id: 'A', price: '500', label: 'Books & Stationery' }, { id: 'B', price: '1,000', label: 'Fees + Supplies' }, { id: 'C', price: '2,000', label: 'Full Support' }].map(tier => (
-                                    <div key={tier.id} onClick={() => setSponsorTier(tier.id)} style={{ ...styles.tierCard, background: sponsorTier === tier.id ? '#1D9E75' : '#fff', color: sponsorTier === tier.id ? '#fff' : '#0a1f14' }}>
+                                    <div key={tier.id} onClick={() => setSponsorTier(tier.id)} style={{ border: '1.5px solid #e5e7eb', borderRadius: '12px', padding: '16px', cursor: 'pointer', flex: 1, transition: '0.2s', background: sponsorTier === tier.id ? '#1D9E75' : '#fff', color: sponsorTier === tier.id ? '#fff' : '#0a1f14' }}>
                                         <h4>₹{tier.price}/mo</h4>
                                         <p>{tier.label}</p>
                                     </div>
                                 ))}
                             </div>
-                            <button onClick={() => document.getElementById('children-section').scrollIntoView()} style={styles.browseBtn}>Browse Children Profiles ↓</button>
+                            <button onClick={() => document.getElementById('children-section').scrollIntoView()} style={{ background: 'none', border: 'none', color: '#d97706', cursor: 'pointer', fontWeight: 500 }}>Browse Children Profiles ↓</button>
                         </div>
                     )}
                     {activeSupport === 'volunteer' && (
-                        <div style={styles.formSection}>
-                            <input style={styles.input} placeholder="Your Name" />
-                            <input style={styles.input} placeholder="Email Address" />
-                            <textarea style={styles.textarea} placeholder="What can you do? (Teach, Mentor, etc.)"></textarea>
-                            <button style={styles.submitBtn}>Register as Volunteer</button>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', padding: '24px 0' }}>
+                            <input style={{ width: '100%', height: '48px', padding: '0 16px', border: '1.5px solid #e5e7eb', borderRadius: '10px' }} placeholder="Your Name" />
+                            <input style={{ width: '100%', height: '48px', padding: '0 16px', border: '1.5px solid #e5e7eb', borderRadius: '10px' }} placeholder="Email Address" />
+                            <textarea style={{ width: '100%', minHeight: '100px', padding: '16px', border: '1.5px solid #e5e7eb', borderRadius: '10px' }} placeholder="What can you do? (Teach, Mentor, etc.)"></textarea>
+                            <button style={{ width: '100%', height: '50px', background: '#1D9E75', color: '#fff', border: 'none', borderRadius: '10px', fontWeight: 500, cursor: 'pointer' }}>Register as Volunteer</button>
                         </div>
                     )}
                 </div>
             </section>
 
             {/* Children Profiles */}
-            <section id="children-section" style={{ ...styles.section, background: '#0a1f14' }}>
-                <div style={styles.disclaimer}>⚠️ All profiles are anonymized simulations. No real child data is used. For demonstration only.</div>
-                <h2 style={{ ...styles.sectionTitle, color: '#fff' }}>Meet the Children</h2>
-                <div style={styles.childrenGrid}>
+            <section id="children-section" style={{ padding: '80px 40px', background: '#0a1f14' }}>
+                <div style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '10px', padding: '10px 20px', textAlign: 'center', color: 'rgba(255,255,255,0.6)', fontSize: '12px', marginBottom: '40px' }}>⚠️ All profiles are anonymized simulations. No real child data is used. For demonstration only.</div>
+                <h2 style={{ fontFamily: 'Syne, sans-serif', fontSize: '32px', textAlign: 'center', marginBottom: '48px', color: '#fff' }}>Meet the Children</h2>
+                <div className="orphanage-children-grid">
                     {children.map(child => (
-                        <div key={child.id} style={styles.flipContainer}>
-                            <div style={styles.flipInner}>
-                                <div style={{ ...styles.flipFront, background: `${child.avatarColor}11`, borderColor: `${child.avatarColor}44` }}>
-                                    <div style={{ ...styles.avatarCircle, background: child.avatarColor }}>
+                        <div key={child.id} className="flip-container">
+                            <div className="flip-inner">
+                                <div className="flip-front" style={{ background: `${child.avatarColor}11`, borderColor: `${child.avatarColor}44` }}>
+                                    <div style={{ width: '80px', height: '80px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px', background: child.avatarColor }}>
                                         <svg width="40" height="40" viewBox="0 0 24 24" fill="white"><path d="M12 4a4 4 0 0 1 4 4 4 4 0 0 1-4 4 4 4 0 0 1-4-4 4 4 0 0 1 4-4m0 10c4.42 0 8 1.79 8 4v2H4v-2c0-2.21 3.58-4 8-4z"/></svg>
                                     </div>
-                                    <h3 style={styles.childId}>Child #{child.id}</h3>
-                                    <p style={styles.childAge}>Age {child.age}</p>
-                                    <p style={styles.childGrade}>{child.grade}</p>
-                                    <button style={styles.cardBtn}>Sponsor Now</button>
+                                    <h3 style={{ fontFamily: 'Syne, sans-serif', fontSize: '18px', color: '#fff' }}>Child #{child.id}</h3>
+                                    <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '14px' }}>Age {child.age}</p>
+                                    <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '14px' }}>{child.grade}</p>
+                                    <button style={{ background: 'rgba(255,255,255,0.15)', color: '#fff', border: '1px solid rgba(255,255,255,0.3)', borderRadius: '8px', padding: '8px 20px', marginTop: '16px' }}>Sponsor Now</button>
                                 </div>
-                                <div style={{ ...styles.flipBack, background: `${child.avatarColor}22`, borderColor: `${child.avatarColor}44` }}>
+                                <div className="flip-back" style={{ background: `${child.avatarColor}22`, borderColor: `${child.avatarColor}44`, color: '#fff' }}>
                                     <p><strong>❤️ Loves:</strong> {child.interests.join(', ')}</p>
                                     <p><strong>🎓 Dream:</strong> {child.dream}</p>
                                     <p><strong>📌 Needs:</strong> {child.need}</p>
-                                    <button onClick={() => handleSponsorClick(child)} style={{ ...styles.submitBtn, background: child.avatarColor }}>Sponsor This Child</button>
+                                    <button onClick={() => handleSponsorClick(child)} style={{ width: '100%', height: '50px', border: 'none', borderRadius: '10px', fontWeight: 500, cursor: 'pointer', background: child.avatarColor, color: '#fff' }}>Sponsor This Child</button>
                                 </div>
                             </div>
                         </div>
@@ -110,16 +111,16 @@ const OrphanageSupportPage = () => {
 
             {/* Modal */}
             {showModal && selectedChild && (
-                <div style={styles.overlay} onClick={() => setShowModal(false)}>
-                    <div style={styles.modal} onClick={e => e.stopPropagation()}>
-                        <button style={styles.closeBtn} onClick={() => setShowModal(false)}>×</button>
-                        <h2 style={styles.modalTitle}>{sponsorConfirmed ? 'Sponsorship Activated!' : 'Choose Your Support Level'}</h2>
-                        <p style={styles.modalSubtitle}>For Child #{selectedChild.id}, Age {selectedChild.age}</p>
+                <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.75)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={() => setShowModal(false)}>
+                    <div style={{ background: '#fff', borderRadius: '20px', padding: '36px', maxWidth: '460px', width: '90%', position: 'relative' }} onClick={e => e.stopPropagation()}>
+                        <button style={{ position: 'absolute', top: '16px', right: '16px', background: '#f3f4f6', border: 'none', width: '32px', height: '32px', borderRadius: '50%', cursor: 'pointer' }} onClick={() => setShowModal(false)}>×</button>
+                        <h2 style={{ fontFamily: 'Syne, sans-serif', fontSize: '24px', textAlign: 'center' }}>{sponsorConfirmed ? 'Sponsorship Activated!' : 'Choose Your Support Level'}</h2>
+                        <p style={{ fontSize: '14px', color: '#6b7280', textAlign: 'center', marginBottom: '24px' }}>For Child #{selectedChild.id}, Age {selectedChild.age}</p>
                         
                         {!sponsorConfirmed ? (
                             <>
                                 {['500', '1,000', '2,000'].map((p, i) => (
-                                    <div key={i} onClick={() => setSponsorTier(i)} style={{ ...styles.modalTier, borderColor: sponsorTier === i ? '#d97706' : '#e5e7eb', background: sponsorTier === i ? '#fffbeb' : '#fff' }}>
+                                    <div key={i} onClick={() => setSponsorTier(i)} style={{ border: '2px solid #e5e7eb', borderRadius: '12px', padding: '18px 20px', cursor: 'pointer', marginBottom: '12px', transition: '0.2s', borderColor: sponsorTier === i ? '#d97706' : '#e5e7eb', background: sponsorTier === i ? '#fffbeb' : '#fff' }}>
                                         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                                             <strong>₹{p} / month</strong>
                                             <span>{['Books', 'Fees', 'Full'][i]}</span>
@@ -127,13 +128,13 @@ const OrphanageSupportPage = () => {
                                         <p style={{ fontSize: '12px', color: '#6b7280', marginTop: '4px' }}>Covers basic needs and education support.</p>
                                     </div>
                                 ))}
-                                <button onClick={() => setSponsorConfirmed(true)} style={{ ...styles.submitBtn, background: '#d97706', marginTop: '20px' }}>Confirm Sponsorship</button>
+                                <button onClick={() => setSponsorConfirmed(true)} style={{ width: '100%', height: '50px', color: '#fff', border: 'none', borderRadius: '10px', fontWeight: 500, cursor: 'pointer', background: '#d97706', marginTop: '20px' }}>Confirm Sponsorship</button>
                             </>
                         ) : (
                             <div style={{ textAlign: 'center', padding: '20px' }}>
                                 <div style={{ fontSize: '48px' }}>✅</div>
                                 <p style={{ color: '#6b7280', margin: '16px 0' }}>Thank you! You'll receive monthly updates on Child #{selectedChild.id}'s progress.</p>
-                                <button onClick={() => setShowModal(false)} style={styles.submitBtn}>Close</button>
+                                <button onClick={() => setShowModal(false)} style={{ width: '100%', height: '50px', background: '#1D9E75', color: '#fff', border: 'none', borderRadius: '10px', fontWeight: 500, cursor: 'pointer' }}>Close</button>
                             </div>
                         )}
                     </div>
@@ -141,46 +142,6 @@ const OrphanageSupportPage = () => {
             )}
         </div>
     );
-};
-
-const styles = {
-    page: { fontFamily: 'DM Sans, sans-serif', color: '#0a1f14' },
-    hero: { position: 'relative', padding: '80px 40px', textAlign: 'center', background: 'linear-gradient(135deg, #1a0a00 0%, #2d1200 50%, #1a0a00 100%)', overflow: 'hidden' },
-    heroTitle: { fontFamily: 'Syne, sans-serif', fontSize: 'clamp(2rem, 5vw, 3.5rem)', fontWeight: 800, color: '#fff', position: 'relative', zIndex: 1 },
-    heroSubtitle: { color: 'rgba(255,255,255,0.75)', maxWidth: '500px', margin: '16px auto 0', position: 'relative', zIndex: 1 },
-    floatingEmoji: { position: 'absolute', fontSize: '3rem', opacity: 0.3, animation: 'float 4s infinite ease-in-out' },
-    section: { padding: '80px 40px' },
-    sectionTitle: { fontFamily: 'Syne, sans-serif', fontSize: '32px', textAlign: 'center', marginBottom: '48px' },
-    supportGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px', maxWidth: '800px', margin: '0 auto' },
-    supportCard: { background: '#fff', borderRadius: '16px', border: '1.5px solid #e5e7eb', padding: '32px 28px', cursor: 'pointer', transition: '0.3s' },
-    supportIcon: { fontSize: '3rem', display: 'block', marginBottom: '16px' },
-    supportTitle: { fontFamily: 'Syne, sans-serif', fontSize: '20px', marginBottom: '8px' },
-    supportDesc: { color: '#6b7280', fontSize: '14px' },
-    expandedContent: { overflow: 'hidden', transition: 'max-height 0.4s ease', maxWidth: '800px', margin: '0 auto' },
-    sponsorTiers: { padding: '24px 0', textAlign: 'center' },
-    tierGrid: { display: 'flex', gap: '16px', justifyContent: 'center', marginBottom: '24px' },
-    tierCard: { border: '1.5px solid #e5e7eb', borderRadius: '12px', padding: '16px', cursor: 'pointer', flex: 1, transition: '0.2s' },
-    browseBtn: { background: 'none', border: 'none', color: '#d97706', cursor: 'pointer', fontWeight: 500 },
-    formSection: { display: 'flex', flexDirection: 'column', gap: '16px', padding: '24px 0' },
-    input: { width: '100%', height: '48px', padding: '0 16px', border: '1.5px solid #e5e7eb', borderRadius: '10px' },
-    textarea: { width: '100%', minHeight: '100px', padding: '16px', border: '1.5px solid #e5e7eb', borderRadius: '10px' },
-    submitBtn: { width: '100%', height: '50px', background: '#1D9E75', color: '#fff', border: 'none', borderRadius: '10px', fontWeight: 500, cursor: 'pointer' },
-    childrenGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px', maxWidth: '1000px', margin: '0 auto' },
-    flipContainer: { perspective: '1000px', width: '280px', height: '320px', cursor: 'pointer', margin: '0 auto' },
-    flipInner: { position: 'relative', width: '100%', height: '100%', textAlign: 'center', transition: 'transform 0.6s', transformStyle: 'preserve-3d' },
-    flipFront: { position: 'absolute', width: '100%', height: '100%', backfaceVisibility: 'hidden', borderRadius: '16px', border: '1px solid', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '28px' },
-    flipBack: { position: 'absolute', width: '100%', height: '100%', backfaceVisibility: 'hidden', borderRadius: '16px', border: '1px solid', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '24px', transform: 'rotateY(180deg)' },
-    avatarCircle: { width: '80px', height: '80px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' },
-    childId: { fontFamily: 'Syne, sans-serif', fontSize: '18px', color: '#fff' },
-    childAge: { color: 'rgba(255,255,255,0.7)', fontSize: '14px' },
-    cardBtn: { background: 'rgba(255,255,255,0.15)', color: '#fff', border: '1px solid rgba(255,255,255,0.3)', borderRadius: '8px', padding: '8px 20px', marginTop: '16px' },
-    disclaimer: { background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '10px', padding: '10px 20px', textAlign: 'center', color: 'rgba(255,255,255,0.6)', fontSize: '12px', marginBottom: '40px' },
-    overlay: { position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.75)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center' },
-    modal: { background: '#fff', borderRadius: '20px', padding: '36px', maxWidth: '460px', width: '90%', position: 'relative' },
-    closeBtn: { position: 'absolute', top: '16px', right: '16px', background: '#f3f4f6', border: 'none', width: '32px', height: '32px', borderRadius: '50%', cursor: 'pointer' },
-    modalTitle: { fontFamily: 'Syne, sans-serif', fontSize: '24px', textAlign: 'center' },
-    modalSubtitle: { fontSize: '14px', color: '#6b7280', textAlign: 'center', marginBottom: '24px' },
-    modalTier: { border: '2px solid #e5e7eb', borderRadius: '12px', padding: '18px 20px', cursor: 'pointer', marginBottom: '12px', transition: '0.2s' }
 };
 
 export default OrphanageSupportPage;

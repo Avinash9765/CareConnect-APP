@@ -1,6 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@400;500;700&display=swap');
 @import url('https://unpkg.com/leaflet@1.9.4/dist/leaflet.css');
 
+:root {
+    --primary: #1D9E75;
+    --primary-dark: #0F6E56;
+    --secondary: #0a1f14;
+    --text-main: #0a1f14;
+    --text-muted: #6b7280;
+    --bg-main: #f8fafc;
+    --white: #ffffff;
+    
+    /* Breakpoints */
+    --mobile: 480px;
+    --tablet: 768px;
+    --laptop: 1024px;
+    --desktop: 1280px;
+}
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -9,9 +25,24 @@
 
 body {
     font-family: 'DM Sans', sans-serif;
-    color: #0a1f14;
-    background-color: #f8fafc;
+    color: var(--text-main);
+    background-color: var(--bg-main);
     overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 0 16px;
+    }
 }
 
 a {
